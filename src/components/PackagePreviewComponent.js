@@ -5,6 +5,11 @@ import configApp from '../configParams.json';
 class PackagePreviewComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.emitSelected = this.emitSelected.bind(this);
+    }
+
+    emitSelected(){
+        this.props.onSelected(this.props.data.id);
     }
 
     render() {
@@ -18,9 +23,7 @@ class PackagePreviewComponent extends React.Component {
                     <p className="text-start text-secondary">{this.props.data.address}</p>
                 </div>
                 <div className="card-footer">
-                    <Link to={`/packages?selected=${this.props.data.id}`} className="text-decoration-none text-dark">
-                        Ver Paquete
-                    </Link>
+                    <button className="text-decoration-none text-dark btn btn-light w-100" onClick={this.emitSelected}>Ver paquete</button>
                 </div>
             </div>
         )

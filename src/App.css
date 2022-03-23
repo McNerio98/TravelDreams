@@ -43,6 +43,10 @@
   height: 300px;
 }
 
+.bannerApp1{
+  width: 100%;
+}
+
 /*Alter class*/
 .container {
   max-width: 960px !important;

@@ -1,4 +1,5 @@
 import React from "react";
+import '@tomtom-international/web-sdk-maps/dist/maps.css'
 import tt from "@tomtom-international/web-sdk-maps";
 import configApp from '../configParams.json';
 import isMobileOrTablet from './maps/mobile';
@@ -31,13 +32,20 @@ class PackagesComponent extends React.Component {
     }
 
     refreshMap(){
+        const coors = [this.props.data.lng,this.props.data.lat];
         let map = tt.map({
             key: configApp.KEY_MAPS,
             container: this.refMaps.current,
-            center: [4.890659, 45.373154],
+            center: coors,
             dragPan: !isMobileOrTablet(),
             zoom: 10
         });
+        map.addControl(new tt.FullscreenControl);
+        map.addControl(new tt.NavigationControl);
+
+        var marker = new tt.Marker({
+            draggable: true
+        }).setLngLat(coors).addTo(map);
         this.setState({map: map});  
     }
 
@@ -58,7 +66,7 @@ class PackagesComponent extends React.Component {
                     <div className="col-md-4">
                         <h5>{this.props.data.name}</h5>
                         $ {this.state.price}
-                        <div class="row">
+                        <div className="row">
                             <div className="d-flex justify-content-between border">
                                 <button className="w-100 btn btn-success" onClick={this.countRes}>-</button>
                                 <span className="w-100">{this.state.count}</span>
@@ -67,8 +75,13 @@ class PackagesComponent extends React.Component {
                         </div>
                     </div>
                     <div className="col-md-8">
-                        <p>{this.props.data.addess}</p>
+                        <p>{this.props.data.address}</p>
                         <p>{this.props.data.description}</p>
+                        <div className="text-end">
+                            <button className="btn btn-primary">
+                                Agregar al carrito
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

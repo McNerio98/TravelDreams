@@ -18,6 +18,7 @@ class PackageComponent extends React.Component {
 
         this.filterResults = this.filterResults.bind(this);
         this.changeFilter = this.changeFilter.bind(this);
+        this.changeSelected = this.changeSelected.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +30,14 @@ class PackageComponent extends React.Component {
         }
 
         this.filterResults();
+    }
+
+    changeSelected(id){
+        //clean 
+        this.setState({selected: null});
+        this.setState({ idSelected: id });
+        this.getPackage(id);
+        window.scrollTo(0, 0);
     }
 
     changeFilter(event){
@@ -80,19 +89,29 @@ class PackageComponent extends React.Component {
                 {this.state.selected &&
                     <PackageAddComponent data={this.state.selected} />
                 }
-                <h5>Paquetes Recomendados</h5>
-                <div>Filtro por categoria</div>
-                <select className="form-select form-select-lg mb-3" onChange={this.changeFilter} value={this.state.filterSelected}>
-                    <option value="0">Todos</option>
-                    <option value="1">Amigos</option>
-                    <option value="2">Pareja</option>
-                    <option value="3">Familiar</option>
-                </select>
+
+                <div className="row mt-md-4 border-top border-3">
+                    <div className="col-md-8">
+                        <h5>Paquetes Recomendados</h5>
+                    </div>
+                    <div className="col-md-4">
+                        <div>Filtro por categoria</div>
+                        <select className="form-select form-select-lg mb-3" onChange={this.changeFilter} value={this.state.filterSelected}>
+                            <option value="0">Todos</option>
+                            <option value="1">Amigos</option>
+                            <option value="2">Pareja</option>
+                            <option value="3">Familiar</option>
+                        </select>                        
+                    </div>                
+                </div>
+                
+
 
                 <div className="row">
                     {this.state.packages.map((e) => (
                         <div className="col-md-2 col-lg-3 p-md-3">
-                            <PackagePreviewComponent key={e.id} data={e} />
+                            
+                            <PackagePreviewComponent  onSelected={this.changeSelected} key={e.id} data={e} />
                         </div>
                     ))}
                 </div>
