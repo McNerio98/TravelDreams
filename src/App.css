@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+
+.mapTomTomDiv{
+  width: 100%;
+  height: 300px;
+}
+
+/*Alter class*/
+.container {
+  max-width: 960px !important;
+}
