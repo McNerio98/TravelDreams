@@ -1,6 +1,6 @@
 {
     "SERVER_PATH": "http://127.0.0.1:3000",
-    "API_URL": "http://127.0.0.1:8000",
-    "IMG_URL": "http://127.0.0.1:8000/images",
+    "API_URL": "http://pruebareact.captainserver.clobitech.com",
+    "IMG_URL": "http://pruebareact.captainserver.clobitech.com/images",
     "KEY_MAPS": "sN0Pag9ZynjWGhXK0nODJeCXrk88HPze"
 }

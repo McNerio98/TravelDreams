@@ -4,6 +4,7 @@ import FooterComponent from "./FooterComponent";
 import PackageAddComponent from '../PackageAddComponent';
 import { getPackageInfo, getAllPackages,getPackagesByCategory } from '../../services';
 import PackagePreviewComponent from "../PackagePreviewComponent";
+import SpinnerComponent from "../SpinnerComponent";
 
 class PackageComponent extends React.Component {
     constructor(props) {
@@ -12,9 +13,9 @@ class PackageComponent extends React.Component {
             idSelected: 0,
             selected: null,
             packages: [],
-            filterSelected: 0
+            filterSelected: 0,
+            loaders: {S1:false,S2: false}
         };
-
 
         this.filterResults = this.filterResults.bind(this);
         this.changeFilter = this.changeFilter.bind(this);
@@ -49,29 +50,36 @@ class PackageComponent extends React.Component {
         if(filter == 0){
             this.getAll();
         }else{
-            this.getByCategory(this.state.filterSelected);
+            this.getByCategory(filter);
         }
     }
 
     getByCategory(id){
+        this.setState({loaders: {S2: true}});
         getPackagesByCategory(id).then(result=>{
             const response = result.data;
             this.setState({ packages: response.data });
         }).catch(ex=>{
             //Manejar exception 
+        }).finally(e=>{
+            this.setState({loaders: {S2: false}});
         })
     }
 
     getAll() {
+        this.setState({loaders: {S2: true}});
         getAllPackages().then(result => {
             const response = result.data;
             this.setState({ packages: response.data });
         }).catch(ex => {
             //Manejar exception 
+        }).finally(e=>{
+            this.setState({loaders: {S2: false}});
         })
     }
 
     getPackage(id) {
+        this.setState({loaders: {S1: true}});
         //Validar idSelected diferente de 0 
         getPackageInfo(id).then(result => {
             const response = result.data;
@@ -79,13 +87,16 @@ class PackageComponent extends React.Component {
         }).catch(ex => {
             //Manejaar error aqui
 
-        });
+        }).finally(e=>{
+            this.setState({loaders: {S1: false}});
+        })
     }
 
     render() {
         return (
             <div className="container py-md-3 py-1">
                 <HeaderComponent />
+                {this.state.loaders.S1 &&<SpinnerComponent/>}
                 {this.state.selected &&
                     <PackageAddComponent data={this.state.selected} />
                 }
@@ -108,9 +119,9 @@ class PackageComponent extends React.Component {
 
 
                 <div className="row">
-                    {this.state.packages.map((e) => (
-                        <div className="col-md-2 col-lg-3 p-md-3">
-                            
+                    {this.state.loaders.S2 &&<SpinnerComponent/>}
+                    {!this.state.loaders.S2 && this.state.packages.map((e) => (
+                        <div className="col-md-2 col-lg-3 p-md-3">                           
                             <PackagePreviewComponent  onSelected={this.changeSelected} key={e.id} data={e} />
                         </div>
                     ))}

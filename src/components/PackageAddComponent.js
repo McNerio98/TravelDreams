@@ -53,13 +53,12 @@ class PackagesComponent extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-4">
-                        <img src={configApp.IMG_URL + "/" + this.props.data.path_img} className="w-100"/>
-                    </div>
-                    <div className="col-md-8">
+                    <div className="col-md-8 order-md-2">
                         <div ref={this.refMaps} className="mapTomTomDiv">
-
                         </div>
+                    </div>                    
+                    <div className="col-md-4 order-md-1">
+                        <img src={configApp.IMG_URL + "/" + this.props.data.path_img} className="w-100"/>
                     </div>
                 </div>
                 <div className="row">
